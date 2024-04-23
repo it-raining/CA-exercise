@@ -1,0 +1,61 @@
+**a) Xác định địa chỉ bit và suy ra vùng tag, index:**
+
+Bộ nhớ cache Direct-mapped có 32 block và mỗi block chứa 1 word. Địa chỉ word là 32-bit.
+
+**Địa chỉ word:** 5, 174, 45, 13, 253, 90, 173, 14, 89, 45, 91, 252
+
+**Số block trong cache:** 32
+
+**Số bit offset:** vì mỗi block chỉ chứa 1 word nên số bit offset là 0.
+
+**Số bit index:** 5 bit (32 blocks -> \(2^5 = 32\))
+
+**Số bit tag:** Còn lại (32 - 5 - 0) = 27 bit
+
+**Chuỗi truy xuất:**
+- Địa chỉ 5: Tag: 0, Index: 1 (5 mod 32 = 5)
+- Địa chỉ 174: Tag: 5, Index: 14 (174 mod 32 = 14)
+- Địa chỉ 45: Tag: 1, Index: 13 (45 mod 32 = 13)
+- Địa chỉ 13: Tag: 0, Index: 13 (13 mod 32 = 13, Hit)
+- Địa chỉ 253: Tag: 7, Index: 29 (253 mod 32 = 29)
+- Địa chỉ 90: Tag: 2, Index: 2 (90 mod 32 = 2)
+- Địa chỉ 173: Tag: 5, Index: 13 (173 mod 32 = 13, Hit)
+- Địa chỉ 14: Tag: 0, Index: 14 (14 mod 32 = 14, Hit)
+- Địa chỉ 89: Tag: 2, Index: 1 (89 mod 32 = 1)
+- Địa chỉ 45: Tag: 1, Index: 13 (45 mod 32 = 13, Hit)
+- Địa chỉ 91: Tag: 2, Index: 3 (91 mod 32 = 3)
+- Địa chỉ 252: Tag: 7, Index: 28 (252 mod 32 = 28)
+
+**Trạng thái Hit/Miss:**
+- Hit: 5 (13), 6 (173), 7 (14), 10 (45)
+- Miss: 0, 1, 2, 3, 4, 8, 9, 11
+
+**b) Xác định vùng tag, index trong trường hợp bộ nhớ cache Direct-mapped có 16 block, mỗi block chứa 2 word:**
+
+**Số block trong cache:** 16
+
+**Số bit offset:** 1 bit (vì mỗi block chứa 2 word)
+
+**Số bit index:** 4 bit (\(2^4 = 16\))
+
+**Số bit tag:** Còn lại (32 - 4 - 1) = 27 bit
+
+Chuỗi truy xuất sẽ tương tự nhưng với cách tính index và tag thay đổi theo số block và số word/block mới.
+
+**c) Tổng số bit bộ nhớ cần dùng để xây dựng bộ nhớ cache trong cả 2 trường hợp:**
+
+**Trường hợp a:**
+- Tag: 27 bit
+- Index: 5 bit
+- Offset: 0 bit
+
+Tổng số bit: \(27 + 5 + 0 = 32\) bit
+
+**Trường hợp b:**
+- Tag: 27 bit
+- Index: 4 bit
+- Offset: 1 bit
+
+Tổng số bit: \(27 + 4 + 1 = 32\) bit
+
+Ở cả hai trường hợp, tổng số bit bộ nhớ cần dùng để xây dựng bộ nhớ cache là 32 bit.

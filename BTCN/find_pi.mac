@@ -1,0 +1,24 @@
+### Print segment
+	.macro endl
+	li $v0, 11
+    	li $a0, 10
+    	syscall
+	.end_macro
+	
+	.macro print_text(%text)
+	li	$v0, 4
+	la	$a0, %text
+	syscall
+	.end_macro
+	
+	.macro print_int(%int) #int is register
+	li	$v0, 1
+	or	$a0, %int, $zero
+	syscall
+	.end_macro
+	
+	.macro print_float(%float) 	#float is register coproc
+	li	$v0, 2
+	mov.s	$f12, %float
+	syscall
+	.end_macro

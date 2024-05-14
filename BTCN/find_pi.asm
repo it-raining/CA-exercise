@@ -1,7 +1,7 @@
 .include "find_pi.mac"
 .data
 	FD: .word 0
-	total: .word 50000
+	total: .word 500000
 	counter: .word 0
 	pi: .float 0
 
@@ -9,8 +9,8 @@
 	
 	filename: .asciiz "BTCN\\Pi.txt"
 	cannot_open_file: .asciiz "Error handle: Can not open file"
-	format_1: .ascii "Number of points in the image: "		#31 char
-	format_2: .ascii "/50000\nCalculated PI number: "		#30 char
+	format_1: .ascii "So diem nam trong hinh tron:  "		#30 char
+	format_2: .ascii "/50000\nSo PI tinh duoc:  "			#26 char
 .text
 .globl main
 main:
@@ -69,7 +69,7 @@ write_file:
 	#Write format 1
 	lw		$a0, FD			
 	la		$a1, format_1
-	li		$a2, 31
+	li		$a2, 30
 	li		$v0, 15
 	syscall
 	
@@ -87,7 +87,7 @@ write_file:
 	#Write format 2
 	lw		$a0, FD
 	la		$a1, format_2
-	li		$a2, 30
+	li		$a2, 26
 	li		$v0, 15
 	syscall
 	

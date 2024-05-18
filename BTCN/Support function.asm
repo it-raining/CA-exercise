@@ -47,18 +47,16 @@ decimal:
 	mfc1	$a0, $f11
 	jal		int_to_ascii
 fraction:
-	
+	cvt.s.w	$f11, $f11
+	sub.s	$f0, $f0, $f11 	#Remove decimal part
+		
 	li		$t0, 1
 	mtc1	$t0, $f11
 	cvt.s.w	$f11, $f11	# Set f11 = 1
 	li		$t0, 10
 	mtc1	$t0, $f12
 	cvt.s.w	$f12, $f12	# Set f12 = 10
-	remove_decimal: 	#Remove decimal part
-		c.lt.s		$f0, $f11
-		bc1t		convert_fraction
-		div.s		$f0, $f0, $f12	#divide f0 by 10
-		j		remove_decimal
+	
 	convert_fraction:
 	lui		$t0, 0xF
 	ori		$t0, 0x4240

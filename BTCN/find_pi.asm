@@ -5,7 +5,7 @@
 	counter: .word 0
 	pi: .float 0
 
-	buffer: .space 4
+	buffer: .space 5
 	decimal_part: .space 4
 	fraction_part: .space 6
 	

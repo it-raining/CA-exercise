@@ -1,16 +1,18 @@
 .include "find_pi.mac"
 .data
 	FD: .word 0
-	total: .word 500000
+	total: .word 50000
 	counter: .word 0
 	pi: .float 0
 
-	buffer: .space 32
+	buffer: .space 4
+	decimal_part: .space 4
+	fraction_part: .space 6
 	
 	filename: .asciiz "BTCN\\Pi.txt"
 	cannot_open_file: .asciiz "Error handle: Can not open file"
-	format_1: .ascii "So diem nam trong hinh tron:  "		#30 char
-	format_2: .ascii "/50000\nSo PI tinh duoc:  "			#26 char
+	label_1: .ascii "So diem nam trong hinh tron:  "		#30 char
+	label_2: .ascii "/50000\nSo PI tinh duoc:  "			#26 char
 .text
 .globl main
 main:
@@ -66,9 +68,9 @@ write_file:
 	bne		$t0, $zero, error_openfile_handle
 	sw		$v0, FD
 	
-	#Write format 1
+	#Write label 1
 	lw		$a0, FD			
-	la		$a1, format_1
+	la		$a1, label_1
 	li		$a2, 30
 	li		$v0, 15
 	syscall
@@ -84,20 +86,41 @@ write_file:
 	li		$v0, 15
 	syscall
 
-	#Write format 2
+	#Write label 2
 	lw		$a0, FD
-	la		$a1, format_2
+	la		$a1, label_2
 	li		$a2, 26
 	li		$v0, 15
 	syscall
 	
-	#Write pi value
+	#Convert pi into IEEE binary32
+	lwc1		$f0, pi
+	la		$a1, decimal_part
+	la		$a2, fraction_part
+	jal		float_to_ascii
+	
+	#Write pi_decimal value
 	lw		$a0, FD			
-	la		$a1, pi
-	li		$a2, 4
+	la		$a1, decimal_part
+	li		$a2, 1
 	li		$v0, 15
 	syscall
-	endl
+	
+	# Print dot
+	li		$t0, 46
+	sw		$t0, buffer
+	lw		$a0, FD			
+	la		$a1, buffer
+	li		$a2, 1
+	li		$v0, 15
+	syscall
+	
+	#Write pi_fraction value
+	lw		$a0, FD			
+	la		$a1, fraction_part
+	li		$a2, 6
+	li		$v0, 15
+	syscall
 
 close_file:
 	lw		$a0, FD
